@@ -2,3 +2,4 @@ philosophers
 philosophers.pdf
 obj/*
 libft/obj/*
+.vscode/*
