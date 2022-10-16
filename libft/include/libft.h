@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 18:52:04 by tblanco           #+#    #+#             */
-/*   Updated: 2022/01/30 10:35:12 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/16 14:01:50 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 /* error functions */
-void	ft_errormess_fd(int fd, char *message);
+int	ft_errormess_fd(int fd, char *message, int status);
 
 #endif

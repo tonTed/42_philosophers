@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/16 10:09:09 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/16 14:55:52 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,42 @@ int pthread_mutex_destroy(pthread_mutex_t *mutex);  pthread_mutex_init,
 #include <sys/time.h>
 #include <pthread.h>
 
-int main(int argc, char const *argv[])
-{	
+void	test_gettimeofday()
+{
+	struct timeval tv;
+	struct timezone tz;
+
+	gettimeofday(&tv, &tz);
+	printf("sec: %ld, usec: %d\n", tv.tv_sec, tv.tv_usec);
+	usleep(1);
+	gettimeofday(&tv, &tz);
+	printf("sec: %ld, usec: %d\n", tv.tv_sec, tv.tv_usec);
+}
+
+int	init_philos(int argc, char **argv, t_vars *vars)
+{
+	int	i;
+
+	if (!ft_isnumberstab(argv))
+		return (EXIT_FAILURE);
+	i = 0;
+	while (i < argc - 1)
+		vars->arguments[i++] = ft_atoi(*(argv)++);
+	if (argc == 5)
+		vars->arguments[NUMBER_OF_TIMES_EACH_PHILISOPHER_MUST_EAT] = -1;
+	print_arguments(*vars);
+	return(EXIT_SUCCESS);
+}
+
+
+int main(int argc, char **argv)
+{
 	printf(RED "Hello Philosophers!!!\n" RESET);
+	t_vars	vars;
+	
+	if ((argc < 5 || argc > 6) || init_philos(argc, &argv[1], &vars))
+		return(exit_mess());
+
 	printf(RED "Bye Philosophers!!!\n" RESET);
 	return 0;
 }

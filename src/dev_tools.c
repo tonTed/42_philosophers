@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_errorendl_fd.c                                  :+:      :+:    :+:   */
+/*   dev_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/24 18:37:40 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/16 14:01:55 by tonted           ###   ########.fr       */
+/*   Created: 2022/10/16 14:30:38 by tonted            #+#    #+#             */
+/*   Updated: 2022/10/16 14:35:12 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "philosophers.h"
 
-int	ft_errormess_fd(int fd, char *message, int status)
+void	print_arguments(t_vars vars)
 {
-	ft_putstr_fd(BRED, fd);
-	ft_putstr_fd(message, fd);
-	ft_putstr_fd(RESET, fd);
-	return (status);
+	printf("[%d, %d, %d, %d, %d]\n",
+		vars.arguments[0],
+		vars.arguments[1],
+		vars.arguments[2],
+		vars.arguments[3],
+		vars.arguments[4]
+		);
 }
