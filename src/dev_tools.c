@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 14:30:38 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/16 14:35:12 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/16 22:31:20 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	print_arguments(t_vars vars)
 {
 	printf("[%d, %d, %d, %d, %d]\n",
-		vars.arguments[0],
-		vars.arguments[1],
-		vars.arguments[2],
-		vars.arguments[3],
-		vars.arguments[4]
+		vars.args[0],
+		vars.args[1],
+		vars.args[2],
+		vars.args[3],
+		vars.args[4]
 		);
 }

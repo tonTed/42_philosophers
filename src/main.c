@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/16 14:55:52 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/05 00:05:30 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int pthread_mutex_destroy(pthread_mutex_t *mutex);  pthread_mutex_init,
 */
 
 #include "philosophers.h"
-#include <sys/time.h>
-#include <pthread.h>
 
 void	test_gettimeofday()
 {
@@ -70,7 +68,15 @@ void	test_gettimeofday()
 	printf("sec: %ld, usec: %d\n", tv.tv_sec, tv.tv_usec);
 }
 
-int	init_philos(int argc, char **argv, t_vars *vars)
+uint64_t	get_time()
+{
+	static struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((uint64_t)((tv.tv_sec * 1000) + (tv.tv_usec / 1000)));
+}
+
+int	init(int argc, char **argv, t_vars *vars)
 {
 	int	i;
 
@@ -78,22 +84,42 @@ int	init_philos(int argc, char **argv, t_vars *vars)
 		return (EXIT_FAILURE);
 	i = 0;
 	while (i < argc - 1)
-		vars->arguments[i++] = ft_atoi(*(argv)++);
+		vars->args[i++] = ft_atoi(*(argv)++);
 	if (argc == 5)
-		vars->arguments[NUMBER_OF_TIMES_EACH_PHILISOPHER_MUST_EAT] = -1;
-	print_arguments(*vars);
+		vars->args[NUMBER_OF_TIMES_EACH_PHILISOPHER_MUST_EAT] = -1;
+	vars->start_time = get_time();
+	vars->tab_philo = (t_philo *)malloc(sizeof(t_philo) * vars->args[AMOUNT_PHILO]);
+	i = 0;
+	while(i < vars->args[AMOUNT_PHILO])
+	{
+		vars->tab_philo[i].status = THINKING;
+		i++;
+	}
 	return(EXIT_SUCCESS);
+}
+
+int	routine(void *data)
+{
+	printf("\n");
+	return (thrd_success);
 }
 
 
 int main(int argc, char **argv)
 {
-	printf(RED "Hello Philosophers!!!\n" RESET);
+	printf(RED "Hello Philosophers %llu!!!\n" RESET, get_time());
 	t_vars	vars;
+	int		i;
 	
-	if ((argc < 5 || argc > 6) || init_philos(argc, &argv[1], &vars))
+	if ((argc < 5 || argc > 6) || init(argc, &argv[1], &vars))
 		return(exit_mess());
-
-	printf(RED "Bye Philosophers!!!\n" RESET);
+	i = 0;
+	while (i < vars.args[AMOUNT_PHILO])
+	{
+		pthread_create(&vars.tab_philo[i], routine, (void *)&vars, NULL);
+		i++;
+	}
+	sleep(5);
+	printf(RED "Bye Philosophers %llu!!!\n" RESET, get_time() - vars.start_time);
 	return 0;
 }
