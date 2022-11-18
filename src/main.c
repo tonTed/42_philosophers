@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/05 00:05:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/18 12:13:02 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,40 +68,10 @@ void	test_gettimeofday()
 	printf("sec: %ld, usec: %d\n", tv.tv_sec, tv.tv_usec);
 }
 
-uint64_t	get_time()
-{
-	static struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((uint64_t)((tv.tv_sec * 1000) + (tv.tv_usec / 1000)));
-}
-
-int	init(int argc, char **argv, t_vars *vars)
-{
-	int	i;
-
-	if (!ft_isnumberstab(argv))
-		return (EXIT_FAILURE);
-	i = 0;
-	while (i < argc - 1)
-		vars->args[i++] = ft_atoi(*(argv)++);
-	if (argc == 5)
-		vars->args[NUMBER_OF_TIMES_EACH_PHILISOPHER_MUST_EAT] = -1;
-	vars->start_time = get_time();
-	vars->tab_philo = (t_philo *)malloc(sizeof(t_philo) * vars->args[AMOUNT_PHILO]);
-	i = 0;
-	while(i < vars->args[AMOUNT_PHILO])
-	{
-		vars->tab_philo[i].status = THINKING;
-		i++;
-	}
-	return(EXIT_SUCCESS);
-}
-
-int	routine(void *data)
+void	*routine(void *data)
 {
 	printf("\n");
-	return (thrd_success);
+	return (NULL);
 }
 
 
@@ -116,7 +86,7 @@ int main(int argc, char **argv)
 	i = 0;
 	while (i < vars.args[AMOUNT_PHILO])
 	{
-		pthread_create(&vars.tab_philo[i], routine, (void *)&vars, NULL);
+		pthread_create(&vars.tab_philo[i].thread, NULL, routine, (void *)&vars);
 		i++;
 	}
 	sleep(5);
