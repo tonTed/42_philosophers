@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/18 12:14:21 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/18 20:08:19 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,17 @@ enum {
 
 /* structs */
 typedef struct s_philosophers {
-	pthread_t	thread;
+	pthread_t	thd;
 	uint8_t		id;
 	char		status;
 	int			last_eat;
 }	t_philo;
 
 typedef struct s_vars {
-	t_philo		*tab_philo;
+	t_philo		*tab;
 	int			args[5];
 	uint64_t	start_time;
+	int			status;
 }	t_vars;
 
 /* errors */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/18 12:13:02 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/18 20:28:23 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,13 @@ void	test_gettimeofday()
 
 void	*routine(void *data)
 {
-	printf("\n");
+	t_philo	*philo;
+
+	philo = (t_philo *)data;
+	sleep(philo->id);
+	printf("philo %d\n", philo->id);
 	return (NULL);
 }
-
 
 int main(int argc, char **argv)
 {
@@ -86,10 +89,14 @@ int main(int argc, char **argv)
 	i = 0;
 	while (i < vars.args[AMOUNT_PHILO])
 	{
-		pthread_create(&vars.tab_philo[i].thread, NULL, routine, (void *)&vars);
+		pthread_create(&vars.tab[i].thd, NULL, routine, &vars.tab[i]);
 		i++;
 	}
-	sleep(5);
+	while (i >= 0)
+	{
+		if (!(pthread_join(vars.tab[i--].thd, (void *)&vars.status)))
+			exit(0);
+	}
 	printf(RED "Bye Philosophers %llu!!!\n" RESET, get_time() - vars.start_time);
 	return 0;
 }
