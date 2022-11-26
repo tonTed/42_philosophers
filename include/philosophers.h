@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/18 20:08:19 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/26 16:59:48 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,30 @@ enum {
 	NUMBER_OF_TIMES_EACH_PHILISOPHER_MUST_EAT
 };
 
+typedef pthread_mutex_t	mutex_t;
+
 /* structs */
+typedef struct s_vars {
+	int			args[5];
+	uint64_t	start_time;
+	int			status;
+	char		die;
+	mutex_t		m_die;
+}	t_vars;
+
 typedef struct s_philosophers {
+	t_vars		*vars;
 	pthread_t	thd;
 	uint8_t		id;
 	char		status;
 	int			last_eat;
 }	t_philo;
 
-typedef struct s_vars {
-	t_philo		*tab;
-	int			args[5];
-	uint64_t	start_time;
-	int			status;
-}	t_vars;
-
 /* errors */
 int	exit_mess(void);
 
 /* initialization */
-int	init(int argc, char **argv, t_vars *vars);
+int	init(int argc, char **argv, t_vars *vars, t_philo **philos);
 
 /* utils_time */
 uint64_t	get_time();

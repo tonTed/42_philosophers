@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/18 20:28:23 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/26 17:06:13 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ void	*routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
+	printf("philo: %d - %p\n", philo->id, &philo->vars->die);
 	sleep(philo->id);
-	printf("philo %d\n", philo->id);
+	if (philo->id == 3)
+		philo->vars->die = 0x1;
+	printf("philo: %d\n", philo->id);
 	return (NULL);
 }
 
@@ -82,21 +85,20 @@ int main(int argc, char **argv)
 {
 	printf(RED "Hello Philosophers %llu!!!\n" RESET, get_time());
 	t_vars	vars;
+	t_philo	*philos;
 	int		i;
 	
-	if ((argc < 5 || argc > 6) || init(argc, &argv[1], &vars))
+	if ((argc < 5 || argc > 6) || init(argc, &argv[1], &vars, &philos))
 		return(exit_mess());
 	i = 0;
 	while (i < vars.args[AMOUNT_PHILO])
 	{
-		pthread_create(&vars.tab[i].thd, NULL, routine, &vars.tab[i]);
+		pthread_create(&philos[i].thd, NULL, routine, &philos[i]);
 		i++;
 	}
-	while (i >= 0)
-	{
-		if (!(pthread_join(vars.tab[i--].thd, (void *)&vars.status)))
-			exit(0);
-	}
+	pthread_detach(philos[3].thd);
+	// while (!vars.die)
+	// 	;
 	printf(RED "Bye Philosophers %llu!!!\n" RESET, get_time() - vars.start_time);
 	return 0;
 }
