@@ -31,7 +31,7 @@ OBJS_TEST = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS_TEST))
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 # Name the compiler & flags
-CC = clang
+CC = clang -fsanitize=thread
 
 CFLAGS = -iquote$(INCDIR)
 # CFLAGS += -Wall -Wextra -Werror
@@ -61,6 +61,10 @@ re			: fclean all
 
 test	: all
 	$(leak) ./philosophers
+
+docker:
+	docker build . -t 42/valgrind
+	docker run --rm -it --name valgrind -v /Users/tonted/42/philosophers:/valgrind 42/valgrind
 
 utest	: buildrepo $(OBJS_TEST)
 	@echo "Hello utest"
