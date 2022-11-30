@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/26 17:06:13 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:18:04 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,11 @@ void	*routine(void *data)
 
 	philo = (t_philo *)data;
 	printf("philo: %d - %p\n", philo->id, &philo->vars->die);
-	sleep(philo->id);
 	if (philo->id == 3)
-		philo->vars->die = 0x1;
+		sleep(3);
+	pthread_mutex_lock(&philo->vars->m_die);
+	philo->vars->die = 0x1;
+	pthread_mutex_unlock(&philo->vars->m_die);
 	printf("philo: %d\n", philo->id);
 	return (NULL);
 }
@@ -94,11 +96,15 @@ int main(int argc, char **argv)
 	while (i < vars.args[AMOUNT_PHILO])
 	{
 		pthread_create(&philos[i].thd, NULL, routine, &philos[i]);
+		pthread_detach(philos[i].thd);
 		i++;
 	}
-	pthread_detach(philos[3].thd);
-	// while (!vars.die)
-	// 	;
+	// pthread_detach(philos[3].thd);
+	while (!vars.die)
+		;
+	// sleep(6);
+	free(philos);
+	pthread_mutex_destroy(&vars.m_die);
 	printf(RED "Bye Philosophers %llu!!!\n" RESET, get_time() - vars.start_time);
 	return 0;
 }
