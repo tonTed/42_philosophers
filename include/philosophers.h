@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/30 11:54:18 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/30 13:16:43 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ uint64_t	get_time_from_beginning(u_int64_t begin);
 
 /* outputs */
 void	manage_print_status(t_philo *philo);
+void	print_status(t_philo *philo, char *s);
+
+/* actions */
+void	ph_take_fork(t_philo *philo);
+void	ph_eat(t_philo *philo);
+void	ph_sleep(t_philo *philo);
+void	ph_think(t_philo *philo);
 
 /* Dev tools */
 # define WHOAMI printf(GRN"Function "BMAG"%s"GRN" ran "BGRN"SUCCESSFULLY\n"RESET, __func__);

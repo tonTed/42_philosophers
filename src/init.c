@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:12:21 by tblanco           #+#    #+#             */
-/*   Updated: 2022/11/30 11:03:23 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/30 13:22:25 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@ void	init_philo(t_philo **philos, t_vars *vars)
 		pthread_mutex_init(&(*philos)[i].left_hand, PTHREAD_MUTEX_NORMAL);
 		if (i)
 			(*philos)[i].right_hand = &(*philos)[i - 1].left_hand;
+		else
+			(*philos)[i].right_hand = NULL;
 		i++;
 	}
 	if (i > 1)
 		(*philos)[0].right_hand = &(*philos)[i - 1].left_hand;
+	else
+		(*philos)[0].right_hand = NULL;
 }
 
 void	init_vars(t_vars *vars, int argc, char **argv)

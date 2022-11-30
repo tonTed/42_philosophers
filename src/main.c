@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/30 11:59:41 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/30 13:52:44 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,91 +68,27 @@ void	test_gettimeofday()
 	printf("sec: %ld, usec: %d\n", tv.tv_sec, tv.tv_usec);
 }
 
-void	set_die(t_philo *philo)
-{
-		philo->status = DIE;
-		manage_print_status(philo);
-		pthread_mutex_lock(&philo->vars->m_die);
-		philo->vars->die = 0x1;
-		pthread_mutex_unlock(&philo->vars->m_die);
-}
-
-char	get_is_die(t_vars *vars)
-{
-	int	is_die;
-
-	pthread_mutex_lock(&vars->m_die);
-	is_die = vars->die;
-	pthread_mutex_unlock(&vars->m_die);
-	return (is_die);
-}
-
-
-# define LOCK 0x1
-# define UNLOCK 0x2
-void	forks(t_philo *philo, char todo)
-{
-	if (todo == LOCK)
-	{
-		pthread_mutex_lock(&philo->left_hand);
-		pthread_mutex_lock(philo->right_hand);
-	}
-	else
-	{
-		pthread_mutex_unlock(&philo->left_hand);
-		pthread_mutex_unlock(philo->right_hand);
-	}
-}
-
-void	take_fork(t_philo *philo)
-{
-	forks(philo, LOCK);
-	philo->status = FORK;
-	manage_print_status(philo);
-}
-
-void	eat(t_philo *philo)
-{
-	if (philo->next_eat <= get_time())
-	{
-		set_die(philo);
-		return ;
-	}
-	philo->status = EATING;
-	manage_print_status(philo);
-	usleep(philo->vars->args[TIME_TO_EAT] * 1000);
-	forks(philo, UNLOCK);
-	philo->next_eat = get_time() + (u_int64_t)philo->vars->args[TIME_TO_DIE];
-}
-
-void	sleep_philo(t_philo *philo)
-{
-	philo->status = SLEEPING;
-	manage_print_status(philo);
-	usleep(philo->vars->args[TIME_TO_EAT] * 1000);
-}
-
-void	think(t_philo *philo)
-{
-	philo->status = THINKING;
-	manage_print_status(philo);
-}
-
-
 void	*routine(void *data)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	manage_print_status(philo);
+	// manage_print_status(philo);
 	while (42)
 	{
-		take_fork(philo);
-		eat(philo);
-		sleep_philo(philo);
-		think(philo);
+		ph_take_fork(philo);
+		ph_eat(philo);
+		ph_sleep(philo);
+		ph_think(philo);
 	}
 	return (NULL);
+}
+
+void print_bin(unsigned char value)
+{
+    for (int i = sizeof(char) * 7; i >= 0; i--)
+        printf("%d", (value & (1 << i)) >> i );
+    putc('\n', stdout);
 }
 
 int main(int argc, char **argv)
@@ -168,11 +104,14 @@ int main(int argc, char **argv)
 	while (i < vars.args[AMOUNT_PHILO])
 	{
 		pthread_create(&philos[i].thd, NULL, routine, &philos[i]);
-		pthread_detach(philos[i].thd);
 		i++;
 	}
-	while (!get_is_die(&vars))
-		;
+	i = 0;
+	while (i < vars.args[AMOUNT_PHILO])
+	{
+		pthread_join(philos[i].thd, NULL);
+		i++;
+	}
 	free(philos);
 	pthread_mutex_destroy(&vars.m_die);
 	printf(RED "Bye Philosophers %llu!!!\n" RESET, get_time() - vars.start_time);

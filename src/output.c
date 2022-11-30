@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 08:23:25 by tblanco           #+#    #+#             */
-/*   Updated: 2022/11/30 08:56:27 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/30 13:16:22 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@
 # define PUTS_THINK "is thinking"
 # define PUTS_DIE "die"
 
-char	get_is_die(t_vars *vars);
+// char	get_is_die(t_vars *vars);
 
-static void	print_status(t_philo *philo, char *s)
+void	print_status(t_philo *philo, char *s)
 {
 	printf("%llu %d %s\n", get_time_from_beginning(philo->vars->start_time), philo->id, s);
 }
 
 void	manage_print_status(t_philo *philo)
 {
-	if (get_is_die(philo->vars))
-		exit(EXIT_SUCCESS);
+	// if (get_is_die(philo->vars))
+	// 	exit(EXIT_SUCCESS);
 	if (philo->status == SLEEPING)
 		print_status(philo, PUTS_SLEEP);
 	else if (philo->status == THINKING)
