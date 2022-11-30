@@ -31,7 +31,8 @@ OBJS_TEST = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS_TEST))
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 # Name the compiler & flags
-CC = clang -fsanitize=thread
+# CC = clang -fsanitize=thread
+CC = clang
 
 CFLAGS = -iquote$(INCDIR)
 # CFLAGS += -Wall -Wextra -Werror
@@ -59,8 +60,13 @@ fclean		: clean
 
 re			: fclean all
 
+LEAK = valgrind 
+
 test	: all
-	$(leak) ./philosophers
+	./philosophers 5 800 200 200
+
+val		: all
+	$(LEAK) ./philosophers 5 800 200 200
 
 docker:
 	docker build . -t 42/valgrind
