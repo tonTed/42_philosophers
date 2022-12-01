@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dev_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 14:30:38 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/30 11:44:50 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/12/01 09:06:29 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	print_philo(t_philo *philo)
 	printf("\n\tleft: %p", (void *)&philo->left_hand);
 	printf("\n\tright: %p", (void *)philo->right_hand);
 	printf("\n\tvars: %p", (void *)philo->vars);
-	printf("\n\tdie: %p", &philo->vars->die);
 	printf("\n\n");
 }
 

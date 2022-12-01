@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 08:49:24 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 09:07:05 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,37 @@ int pthread_mutex_destroy(pthread_mutex_t *mutex);  pthread_mutex_init,
 
 #include "philosophers.h"
 
+# define LOCK 0x1
+# define UNLOCK 0x2
+
+static	void	forks(t_philo *philo, char todo)
+{
+	if (todo == LOCK)
+	{
+		pthread_mutex_lock(&philo->left_hand);
+		print_status(philo, PUTS_FORK);
+		pthread_mutex_lock(philo->right_hand);
+		print_status(philo, PUTS_FORK);
+	}
+	else
+	{
+		pthread_mutex_unlock(&philo->left_hand);
+		pthread_mutex_unlock(philo->right_hand);
+	}
+}
+
+void	actions(t_philo *philo)
+{
+	forks(philo, LOCK);
+	print_status(philo, PUTS_EAT);
+	philo->next_eat = get_time() + (u_int64_t)philo->vars->args[TIME_TO_DIE];
+	usleep(philo->vars->args[TIME_TO_EAT] * 1000);
+	forks(philo, UNLOCK);
+	print_status(philo, PUTS_SLEEP);
+	usleep(philo->vars->args[TIME_TO_SLEEP] * 1000);
+	print_status(philo, PUTS_THINK);
+}
+
 void	*routine(void *data)
 {
 	t_philo	*philo;
@@ -64,12 +95,7 @@ void	*routine(void *data)
 	if (!(philo->id % 2))
 		usleep((philo->vars->args[TIME_TO_EAT] / 2) * 1000);
 	while (42)
-	{
-		ph_take_fork(philo);
-		ph_eat(philo);
-		ph_sleep(philo);
-		ph_think(philo);
-	}
+		actions(philo);
 	return (NULL);
 }
 
@@ -81,6 +107,18 @@ int main(int argc, char **argv)
 	
 	if ((argc < 5 || argc > 6) || init(argc, &argv[1], &vars, &philos))
 		return(exit_mess());
+	i = 0;
+	while (i < vars.args[AMOUNT_PHILO])
+	{
+		pthread_create(&philos[i].thd, NULL, routine, &philos[i]);
+		i++;
+	}
+	i = 0;
+	while (i < vars.args[AMOUNT_PHILO])
+	{
+		pthread_join(philos[i].thd, NULL);
+		i++;
+	}
 	i = 0;
 	free(philos);
 	return 0;
