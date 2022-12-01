@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:12:21 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 08:55:17 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 10:28:49 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	init_philo(t_philo **philos, t_vars *vars)
 
 	*philos = (t_philo *)malloc(sizeof(t_philo) * vars->args[AMOUNT_PHILO]);
 	i = 0;
-	while(i < vars->args[AMOUNT_PHILO])
+	while (i < vars->args[AMOUNT_PHILO])
 	{
 		(*philos)[i].id = i + 1;
-		(*philos)[i].status = THINKING;
 		(*philos)[i].vars = vars;
+		pthread_mutex_init(&(*philos)[i].m_next_eat, PTHREAD_MUTEX_NORMAL);
 		pthread_mutex_init(&(*philos)[i].left_hand, PTHREAD_MUTEX_NORMAL);
 		if (i)
 			(*philos)[i].right_hand = &(*philos)[i - 1].left_hand;
@@ -38,7 +38,7 @@ void	init_philo(t_philo **philos, t_vars *vars)
 
 void	init_vars(t_vars *vars, int argc, char **argv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < argc - 1)
@@ -63,5 +63,5 @@ int	init(int argc, char **argv, t_vars *vars, t_philo **philos)
 		(*philos)[i].next_eat = vars->start_time + vars->args[TIME_TO_DIE];
 		i++;
 	}
-	return(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

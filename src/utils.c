@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_time.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:13:23 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 07:55:18 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 10:29:16 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-uint64_t	get_time()
+uint64_t	get_time(void)
 {
 	static struct timeval	tv;
 
@@ -30,6 +30,11 @@ void	ft_usleep(u_int64_t time)
 	int	time_at_beginning;
 
 	time_at_beginning = get_time();
-	while (get_time() - time_at_beginning <= time)
+	while (get_time() - time_at_beginning < time)
 		usleep(10);
+}
+
+int	exit_mess(void)
+{
+	return (ft_errormess_fd(STDERR_FILENO, "Error\n", EXIT_FAILURE));
 }

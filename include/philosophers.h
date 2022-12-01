@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 09:05:02 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 10:27:48 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,44 +43,42 @@ enum {
 	PRINT
 };
 
-typedef pthread_mutex_t	mutex_t;
+typedef pthread_mutex_t	t_mutex;
 
 /* structs */
 typedef struct s_vars {
 	int			args[5];
 	uint64_t	start_time;
-	int			status;
-	mutex_t		mutexs[1];
+	t_mutex		mutexs[1];
 }	t_vars;
 
 typedef struct s_philosophers {
 	t_vars		*vars;
 	pthread_t	thd;
 	uint8_t		id;
-	char		status;
-	mutex_t		left_hand;
-	mutex_t		*right_hand;
+	t_mutex		left_hand;
+	t_mutex		*right_hand;
+	t_mutex		m_next_eat;
 	uint64_t	next_eat;
 }	t_philo;
 
 /* errors */
-int	exit_mess(void);
+int			exit_mess(void);
 
 /* initialization */
-int	init(int argc, char **argv, t_vars *vars, t_philo **philos);
+int			init(int argc, char **argv, t_vars *vars, t_philo **philos);
 
 /* utils_time */
-uint64_t	get_time();
+uint64_t	get_time(void);
 uint64_t	get_time_from_beginning(u_int64_t begin);
 void		ft_usleep(u_int64_t time);
 
 /* outputs */
-void	print_status(t_philo *philo, char *s);
-
+void		print_status(t_philo *philo, char *s);
+void		print_die(t_philo *philo);
 
 /* Dev tools */
-# define WHOAMI printf(GRN"Function "BMAG"%s"GRN" ran "BGRN"SUCCESSFULLY\n"RESET, __func__);
-void	print_arguments(t_vars vars);
-void	print_philos(t_philo **philos);
+void		print_arguments(t_vars vars);
+void		print_philos(t_philo **philos);
 
 #endif
