@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 08:23:25 by tblanco           #+#    #+#             */
-/*   Updated: 2022/11/30 13:16:22 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/12/01 07:57:42 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # define PUTS_THINK "is thinking"
 # define PUTS_DIE "die"
 
-// char	get_is_die(t_vars *vars);
 
 void	print_status(t_philo *philo, char *s)
 {
@@ -27,8 +26,6 @@ void	print_status(t_philo *philo, char *s)
 
 void	manage_print_status(t_philo *philo)
 {
-	// if (get_is_die(philo->vars))
-	// 	exit(EXIT_SUCCESS);
 	if (philo->status == SLEEPING)
 		print_status(philo, PUTS_SLEEP);
 	else if (philo->status == THINKING)

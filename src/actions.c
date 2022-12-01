@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 12:31:06 by tblanco           #+#    #+#             */
-/*   Updated: 2022/11/30 14:22:08 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/12/01 07:56:05 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,6 @@ void	is_die(t_philo *philo)
 		set_die(philo);
 		exit(EXIT_SUCCESS);
 	}
-}
-
-void	ph_usleep(u_int64_t time)
-{
-	u_int64_t	times;
-
-	times = time / 50;
-	while (times)
-	{
-		usleep(50);
-		times--;
-	}
-	if (time % 50)
-		usleep(time % 50);
 }
 
 void	ph_take_fork(t_philo *philo)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/30 13:52:44 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/12/01 08:46:03 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,11 @@ int pthread_mutex_destroy(pthread_mutex_t *mutex);  pthread_mutex_init,
 
 #include "philosophers.h"
 
-void	test_gettimeofday()
-{
-	struct timeval tv;
-	struct timezone tz;
-
-	gettimeofday(&tv, &tz);
-	printf("sec: %ld, usec: %d\n", tv.tv_sec, tv.tv_usec);
-	usleep(1);
-	gettimeofday(&tv, &tz);
-	printf("sec: %ld, usec: %d\n", tv.tv_sec, tv.tv_usec);
-}
-
 void	*routine(void *data)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	// manage_print_status(philo);
 	while (42)
 	{
 		ph_take_fork(philo);
@@ -84,16 +71,8 @@ void	*routine(void *data)
 	return (NULL);
 }
 
-void print_bin(unsigned char value)
-{
-    for (int i = sizeof(char) * 7; i >= 0; i--)
-        printf("%d", (value & (1 << i)) >> i );
-    putc('\n', stdout);
-}
-
 int main(int argc, char **argv)
 {
-	printf(RED "Hello Philosophers %llu!!!\n" RESET, get_time());
 	t_vars	vars;
 	t_philo	*philos;
 	int		i;
@@ -101,19 +80,6 @@ int main(int argc, char **argv)
 	if ((argc < 5 || argc > 6) || init(argc, &argv[1], &vars, &philos))
 		return(exit_mess());
 	i = 0;
-	while (i < vars.args[AMOUNT_PHILO])
-	{
-		pthread_create(&philos[i].thd, NULL, routine, &philos[i]);
-		i++;
-	}
-	i = 0;
-	while (i < vars.args[AMOUNT_PHILO])
-	{
-		pthread_join(philos[i].thd, NULL);
-		i++;
-	}
 	free(philos);
-	pthread_mutex_destroy(&vars.m_die);
-	printf(RED "Bye Philosophers %llu!!!\n" RESET, get_time() - vars.start_time);
 	return 0;
 }

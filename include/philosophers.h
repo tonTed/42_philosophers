@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/30 13:16:43 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/12/01 08:43:51 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ typedef struct s_vars {
 	int			args[5];
 	uint64_t	start_time;
 	int			status;
-	char		die;
-	mutex_t		m_die;
 }	t_vars;
 
 typedef struct s_philosophers {
