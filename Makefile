@@ -5,7 +5,7 @@ INCDIR := include
 LIBFTDIR := libft
 
 # Name of the final executable
-NAME = philosophers
+NAME = philo
 
 # Decide whether the commands will be shwon or not
 VERBOSE = TRUE
@@ -31,11 +31,11 @@ OBJS_TEST = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS_TEST))
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 # Name the compiler & flags
-# CC = clang -fsanitize=thread
-CC = clang
+CC = clang -fsanitize=thread
+# CC = clang
 
 CFLAGS = -iquote$(INCDIR)
-# CFLAGS += -Wall -Wextra -Werror
+CFLAGS += -Wall -Wextra -Werror
 
 LIBS = -L./libft -lft
 
@@ -63,10 +63,10 @@ re			: fclean all
 LEAK = valgrind 
 
 test	: all
-	./philosophers 5 800 200 200
+	./$(NAME) 5 800 200 200
 
 val		: all
-	$(LEAK) ./philosophers 5 800 200 200
+	$(LEAK) ./$(NAME) 5 800 200 200
 
 docker:
 	docker build . -t 42/valgrind
