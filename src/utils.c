@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:13:23 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 13:15:29 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 14:01:56 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ uint64_t	get_time_from_beginning(u_int64_t begin)
 
 void	ft_usleep(u_int64_t time)
 {
-	int	time_at_beginning;
+	u_int64_t	time_at_beginning;
 
 	time_at_beginning = get_time();
 	while (get_time() - time_at_beginning < time)

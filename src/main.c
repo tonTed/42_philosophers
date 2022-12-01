@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 13:54:56 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 13:59:25 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void	*routine(void *data)
 		philo->next_eat = get_time()
 			+ (u_int64_t)philo->vars->args[TIME_TO_DIE];
 		pthread_mutex_unlock(&philo->m_next_eat);
-		usleep(philo->vars->args[TIME_TO_EAT] * 1000);
+		ft_usleep(philo->vars->args[TIME_TO_EAT]);
 		pthread_mutex_unlock(&philo->left_hand);
 		pthread_mutex_unlock(philo->right_hand);
 		print_status(philo, PUTS_SLEEP);
-		usleep(philo->vars->args[TIME_TO_SLEEP] * 1000);
+		ft_usleep(philo->vars->args[TIME_TO_SLEEP]);
 		add_meal(philo);
 		print_status(philo, PUTS_THINK);
 	}
