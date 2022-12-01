@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:12:21 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 10:28:49 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 10:38:01 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_philo(t_philo **philos, t_vars *vars)
 	if (i > 1)
 		(*philos)[0].right_hand = &(*philos)[i - 1].left_hand;
 	else
-		(*philos)[0].right_hand = NULL;
+		(*philos)[0].right_hand =  &(*philos)[0].left_hand;
 }
 
 void	init_vars(t_vars *vars, int argc, char **argv)
