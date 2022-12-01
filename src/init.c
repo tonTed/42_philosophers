@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:12:21 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 13:06:09 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 14:21:49 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,21 @@ void	init_philo(t_philo **philos, t_vars *vars)
 		(*philos)[0].right_hand = &(*philos)[0].left_hand;
 }
 
-void	init_vars(t_vars *vars, int argc, char **argv)
+int	init_vars(t_vars *vars, int argc, char **argv)
 {
 	int	i;
 
 	i = 0;
 	while (i < argc - 1)
-		vars->args[i++] = ft_atoi(*(argv)++);
+	{
+		vars->args[i] = ft_atoi(*(argv)++);
+		if (vars->args[i++] <= 0)
+			return (EXIT_FAILURE);
+	}
 	if (argc == 5)
 		vars->args[MUST_EAT] = -1;
 	pthread_mutex_init(&vars->mutexs[PRINT], PTHREAD_MUTEX_NORMAL);
+	return (EXIT_SUCCESS);
 }
 
 int	init(int argc, char **argv, t_vars *vars, t_philo **philos)
@@ -54,7 +59,8 @@ int	init(int argc, char **argv, t_vars *vars, t_philo **philos)
 
 	if (!ft_isnumberstab(argv))
 		return (EXIT_FAILURE);
-	init_vars(vars, argc, argv);
+	if (init_vars(vars, argc, argv))
+		return (EXIT_FAILURE);
 	init_philo(philos, vars);
 	vars->start_time = get_time();
 	i = 0;
