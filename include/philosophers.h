@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 16:31:57 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 17:50:13 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ typedef struct s_philosophers {
 
 /* initialization */
 int			init(int argc, char **argv, t_vars *vars, t_philo **philos);
+
+/* monitoring */
+void		monitoring(t_vars *vars, t_philo **philos);
 
 /* utils */
 uint64_t	get_time(void);

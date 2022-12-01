@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 16:57:07 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 17:48:03 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ void	add_meal(t_philo *philo)
 	pthread_mutex_unlock(&philo->m_meals);
 }
 
+bool	ft_continue(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->vars->mutexs[PRINT]);
+	if (philo->vars->print)
+	{
+		pthread_mutex_unlock(&philo->vars->mutexs[PRINT]);
+		return (true);
+	}
+	pthread_mutex_unlock(&philo->vars->mutexs[PRINT]);
+	return (false);
+}
+
 void	*routine(void *data)
 {
 	t_philo	*philo;
@@ -28,7 +40,7 @@ void	*routine(void *data)
 	philo = (t_philo *)data;
 	if (!(philo->id % 2))
 		usleep((philo->vars->args[TIME_TO_EAT] / 2) * 1000);
-	while (42)
+	while (ft_continue(philo))
 	{
 		pthread_mutex_lock(&philo->left_hand);
 		print_status(philo, PUTS_FORK);
@@ -50,55 +62,6 @@ void	*routine(void *data)
 	return (NULL);
 }
 
-int	check_meals(t_philo *philos, t_vars *vars)
-{
-	int	i;
-	int	meals;
-
-	if (vars->args[MUST_EAT] == -1)
-		return (0);
-	i = 0;
-	while (i < vars->args[AMOUNT_PHILO])
-	{
-		pthread_mutex_lock(&philos[i].m_meals);
-		meals = philos[i].meals;
-		pthread_mutex_unlock(&philos[i].m_meals);
-		if (meals < vars->args[MUST_EAT])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void	monitoring(t_vars *vars, t_philo **philos)
-{
-	int			i;
-	int			amount_philos;
-	u_int64_t	time;
-
-	amount_philos = vars->args[AMOUNT_PHILO];
-	i = 0;
-	while (42)
-	{
-		if (i == amount_philos)
-			i = 0;
-		pthread_mutex_lock(&(*philos)[i].m_next_eat);
-		time = (*philos)[i].next_eat;
-		pthread_mutex_unlock(&(*philos)[i].m_next_eat);
-		if (time < get_time())
-		{
-			print_die(&(*philos)[i]);
-			return ;
-		}
-		if (check_meals(&(**philos), vars))
-		{
-			pthread_mutex_lock(&vars->mutexs[PRINT]);
-			return ;
-		}	
-		i++;
-	}
-}
-
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
@@ -114,8 +77,12 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	monitoring(&vars, &philos);
+	i = 0;
+	while (i < vars.args[AMOUNT_PHILO])
+	{
+		pthread_join(philos[i].thd, NULL);
+		i++;
+	}
 	clean_exit(&vars, &philos);
-	pthread_mutex_unlock(&vars.mutexs[PRINT]);
-	pthread_mutex_destroy(&vars.mutexs[PRINT]);
-	return (EXIT_SUCCESS);
+	return (pthread_mutex_unlock(&vars.mutexs[PRINT]));
 }
