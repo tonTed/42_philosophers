@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 13:12:23 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 16:31:57 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@
 # include <pthread.h>
 
 /* status */
-# define SLEEPING 0x1
-# define THINKING 0x2
-# define EATING 0x4
-# define DIE 0x8
+# define OFF 0x0
+# define ON 0x1
 
 /* outputs */
 # define PUTS_FORK "has taken a fork"
@@ -50,6 +48,7 @@ typedef struct s_vars {
 	int			args[5];
 	uint64_t	start_time;
 	t_mutex		mutexs[1];
+	char		print;
 }	t_vars;
 
 typedef struct s_philosophers {

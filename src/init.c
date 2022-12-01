@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:12:21 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 14:21:49 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 16:31:43 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	init_vars(t_vars *vars, int argc, char **argv)
 	if (argc == 5)
 		vars->args[MUST_EAT] = -1;
 	pthread_mutex_init(&vars->mutexs[PRINT], PTHREAD_MUTEX_NORMAL);
+	vars->print = ON;
 	return (EXIT_SUCCESS);
 }
 
