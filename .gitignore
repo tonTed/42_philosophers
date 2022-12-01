@@ -1,5 +1,5 @@
 philosophers
-philo
+philo/philo
 philosophers.pdf
 obj/*
 libft/obj/*
