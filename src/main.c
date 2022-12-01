@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 13:20:18 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 13:54:56 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	add_meal(t_philo *philo)
 {
-	if (philo->vars->args[MUST_EAT] != -1)
+	if (philo->vars->args[MUST_EAT] == -1)
 		return ;
 	pthread_mutex_lock(&philo->m_meals);
 	philo->meals++;
@@ -50,17 +50,23 @@ void	*routine(void *data)
 	return (NULL);
 }
 
-int	check_meals(t_philo **philos, t_vars *vars)
+int	check_meals(t_philo *philos, t_vars *vars)
 {
 	int	i;
+	int	meals;
 
-	if (vars->args[MUST_EAT] != -1)
+	if (vars->args[MUST_EAT] == -1)
 		return (0);
 	i = 0;
 	while (i < vars->args[AMOUNT_PHILO])
-		if ((*philos)[i++].meals < vars->args[MUST_EAT])
+	{
+		pthread_mutex_lock(&philos[i].m_meals);
+		meals = philos[i].meals;
+		pthread_mutex_unlock(&philos[i].m_meals);
+		if (meals < vars->args[MUST_EAT])
 			return (0);
-	pthread_mutex_lock(&vars->mutexs[PRINT]);
+		i++;
+	}
 	return (1);
 }
 
@@ -84,9 +90,11 @@ void	monitoring(t_vars *vars, t_philo **philos)
 			print_die(&(*philos)[i]);
 			return ;
 		}
-		if (vars->args[MUST_EAT] != -1)
-			if (check_meals(philos, vars))
-				return ;
+		if (check_meals(&(**philos), vars))
+		{
+			pthread_mutex_lock(&vars->mutexs[PRINT]);
+			return ;
+		}	
 		i++;
 	}
 }
