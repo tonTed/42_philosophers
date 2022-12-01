@@ -6,11 +6,20 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 10:30:22 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 13:20:18 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	add_meal(t_philo *philo)
+{
+	if (philo->vars->args[MUST_EAT] != -1)
+		return ;
+	pthread_mutex_lock(&philo->m_meals);
+	philo->meals++;
+	pthread_mutex_unlock(&philo->m_meals);
+}
 
 void	*routine(void *data)
 {
@@ -35,9 +44,24 @@ void	*routine(void *data)
 		pthread_mutex_unlock(philo->right_hand);
 		print_status(philo, PUTS_SLEEP);
 		usleep(philo->vars->args[TIME_TO_SLEEP] * 1000);
+		add_meal(philo);
 		print_status(philo, PUTS_THINK);
 	}
 	return (NULL);
+}
+
+int	check_meals(t_philo **philos, t_vars *vars)
+{
+	int	i;
+
+	if (vars->args[MUST_EAT] != -1)
+		return (0);
+	i = 0;
+	while (i < vars->args[AMOUNT_PHILO])
+		if ((*philos)[i++].meals < vars->args[MUST_EAT])
+			return (0);
+	pthread_mutex_lock(&vars->mutexs[PRINT]);
+	return (1);
 }
 
 void	monitoring(t_vars *vars, t_philo **philos)
@@ -60,22 +84,11 @@ void	monitoring(t_vars *vars, t_philo **philos)
 			print_die(&(*philos)[i]);
 			return ;
 		}
+		if (vars->args[MUST_EAT] != -1)
+			if (check_meals(philos, vars))
+				return ;
 		i++;
 	}
-}
-
-void	clean_exit(t_vars *vars, t_philo **philos)
-{
-	int	i;
-
-	i = 0;
-	while (i < vars->args[AMOUNT_PHILO])
-	{
-		pthread_mutex_destroy(&(*philos)[i].m_next_eat);
-		pthread_mutex_destroy(&(*philos)[i].left_hand);
-		i++;
-	}
-	free(*philos);
 }
 
 int	main(int argc, char **argv)

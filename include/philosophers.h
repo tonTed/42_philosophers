@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 10:27:48 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 13:12:23 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ enum {
 	TIME_TO_DIE,
 	TIME_TO_EAT,
 	TIME_TO_SLEEP,
-	NUMBER_OF_TIMES_EACH_PHILISOPHER_MUST_EAT
+	MUST_EAT
 };
 
 enum {
@@ -60,18 +60,19 @@ typedef struct s_philosophers {
 	t_mutex		*right_hand;
 	t_mutex		m_next_eat;
 	uint64_t	next_eat;
+	t_mutex		m_meals;
+	int			meals;
 }	t_philo;
-
-/* errors */
-int			exit_mess(void);
 
 /* initialization */
 int			init(int argc, char **argv, t_vars *vars, t_philo **philos);
 
-/* utils_time */
+/* utils */
 uint64_t	get_time(void);
 uint64_t	get_time_from_beginning(u_int64_t begin);
 void		ft_usleep(u_int64_t time);
+void		clean_exit(t_vars *vars, t_philo **philos);
+int			exit_mess(void);
 
 /* outputs */
 void		print_status(t_philo *philo, char *s);

@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:12:21 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 10:38:01 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 13:06:09 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ void	init_philo(t_philo **philos, t_vars *vars)
 	{
 		(*philos)[i].id = i + 1;
 		(*philos)[i].vars = vars;
+		(*philos)[i].meals = 0;
 		pthread_mutex_init(&(*philos)[i].m_next_eat, PTHREAD_MUTEX_NORMAL);
 		pthread_mutex_init(&(*philos)[i].left_hand, PTHREAD_MUTEX_NORMAL);
+		pthread_mutex_init(&(*philos)[i].m_meals, PTHREAD_MUTEX_NORMAL);
 		if (i)
 			(*philos)[i].right_hand = &(*philos)[i - 1].left_hand;
-		else
-			(*philos)[i].right_hand = NULL;
 		i++;
 	}
 	if (i > 1)
 		(*philos)[0].right_hand = &(*philos)[i - 1].left_hand;
 	else
-		(*philos)[0].right_hand =  &(*philos)[0].left_hand;
+		(*philos)[0].right_hand = &(*philos)[0].left_hand;
 }
 
 void	init_vars(t_vars *vars, int argc, char **argv)
@@ -44,7 +44,7 @@ void	init_vars(t_vars *vars, int argc, char **argv)
 	while (i < argc - 1)
 		vars->args[i++] = ft_atoi(*(argv)++);
 	if (argc == 5)
-		vars->args[NUMBER_OF_TIMES_EACH_PHILISOPHER_MUST_EAT] = -1;
+		vars->args[MUST_EAT] = -1;
 	pthread_mutex_init(&vars->mutexs[PRINT], PTHREAD_MUTEX_NORMAL);
 }
 
