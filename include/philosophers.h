@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 08:43:51 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 08:56:58 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,18 @@
 # include <sys/time.h>
 # include <pthread.h>
 
+/* status */
 # define SLEEPING 0x1
 # define THINKING 0x2
 # define EATING 0x4
 # define DIE 0x8
-# define FORK 0x10
+
+/* outputs */
+# define PUTS_FORK "has taken a fork"
+# define PUTS_EAT "is eating"
+# define PUTS_SLEEP "is sleeping"
+# define PUTS_THINK "is thinking"
+# define PUTS_DIE "die"
 
 enum {
 	AMOUNT_PHILO,
@@ -32,6 +39,10 @@ enum {
 	NUMBER_OF_TIMES_EACH_PHILISOPHER_MUST_EAT
 };
 
+enum {
+	PRINT
+};
+
 typedef pthread_mutex_t	mutex_t;
 
 /* structs */
@@ -39,6 +50,7 @@ typedef struct s_vars {
 	int			args[5];
 	uint64_t	start_time;
 	int			status;
+	mutex_t		mutexs[1];
 }	t_vars;
 
 typedef struct s_philosophers {

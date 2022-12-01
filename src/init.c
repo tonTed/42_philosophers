@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:12:21 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 08:45:39 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 08:55:17 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	init_vars(t_vars *vars, int argc, char **argv)
 		vars->args[i++] = ft_atoi(*(argv)++);
 	if (argc == 5)
 		vars->args[NUMBER_OF_TIMES_EACH_PHILISOPHER_MUST_EAT] = -1;
+	pthread_mutex_init(&vars->mutexs[PRINT], PTHREAD_MUTEX_NORMAL);
 }
 
 int	init(int argc, char **argv, t_vars *vars, t_philo **philos)

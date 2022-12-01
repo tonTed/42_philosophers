@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 12:31:06 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 07:56:05 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 08:52:51 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static	void	forks(t_philo *philo, char todo)
 	if (todo == LOCK)
 	{
 		pthread_mutex_lock(&philo->left_hand);
-		print_status(philo, "has taken a fork");
+		print_status(philo, PUTS_FORK);
 		pthread_mutex_lock(philo->right_hand);
-		print_status(philo, "has taken a fork");
+		print_status(philo, PUTS_FORK);
 	}
 	else
 	{
@@ -48,7 +48,6 @@ void	is_die(t_philo *philo)
 
 void	ph_take_fork(t_philo *philo)
 {
-	is_die(philo);
 	forks(philo, LOCK);
 }
 
