@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 08:46:03 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/01 08:49:24 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	*routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
+	if (!(philo->id % 2))
+		usleep((philo->vars->args[TIME_TO_EAT] / 2) * 1000);
 	while (42)
 	{
 		ph_take_fork(philo);
