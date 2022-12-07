@@ -1,6 +1,11 @@
-philosophers
+
 philo/philo
+philo/philo_bonus
+
+philo/obj
+philo_bonus/obj
+
 philosophers.pdf
-obj/*
 libft/obj/*
+
 .vscode/*
