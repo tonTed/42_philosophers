@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/21 15:06:43 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/21 18:23:06 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 # define PUTS_THINK "is thinking"
 # define PUTS_DIE "die"
 
-# define SEM_FORKS "sem_forks"
-# define SEM_PRINT "sem_print"
+# define SEM_FORKS "sem_forks_5"
+# define SEM_PRINT "sem_print_5"
 
 enum {
 	AMOUNT_PHILO,
@@ -42,11 +42,10 @@ enum {
 	MUST_EAT
 };
 
-typedef enum e_sems {
+enum {
 	PRINT,
 	FORKS,
-	N_SEMS
-}			t_sems;
+};
 
 typedef pthread_mutex_t	t_mutex;
 

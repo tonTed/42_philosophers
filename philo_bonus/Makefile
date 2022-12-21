@@ -31,7 +31,7 @@ OBJS_TEST = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS_TEST))
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 # Name the compiler & flags
-CC = clang -fsanitize=thread
+CC = clang
 # CC = clang
 
 CFLAGS = -iquote$(INCDIR)
