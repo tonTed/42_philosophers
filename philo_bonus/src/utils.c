@@ -6,11 +6,12 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:13:23 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/01 14:01:56 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/21 15:09:42 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../include/philosophers.h"
+#include <sys/semaphore.h>
 
 uint64_t	get_time(void)
 {
@@ -41,15 +42,10 @@ int	exit_mess(void)
 
 void	clean_exit(t_vars *vars, t_philo **philos)
 {
-	int	i;
+	(void)philos;
 
-	i = 0;
-	while (i < vars->args[AMOUNT_PHILO])
-	{
-		pthread_mutex_destroy(&(*philos)[i].m_next_eat);
-		pthread_mutex_destroy(&(*philos)[i].left_hand);
-		pthread_mutex_destroy(&(*philos)[i].m_meals);
-		i++;
-	}
-	free(*philos);
+	sem_close(vars->sems[PRINT]);
+	sem_unlink(SEM_PRINT);
+	sem_close(vars->sems[FORKS]);
+	sem_unlink(SEM_FORKS);
 }
