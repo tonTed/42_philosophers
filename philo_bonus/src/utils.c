@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:13:23 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/21 20:05:47 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/21 20:20:50 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,13 @@ void	ft_usleep(u_int64_t time)
 int	exit_mess(void)
 {
 	return (ft_errormess_fd(STDERR_FILENO, "Error\n", EXIT_FAILURE));
+}
+
+void	free_null(void *ptr)
+{
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
 }
