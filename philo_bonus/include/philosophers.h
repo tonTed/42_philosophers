@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:06:02 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/21 18:23:06 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/21 20:13:06 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <sys/semaphore.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <string.h>
 
 
 /* status */
@@ -33,6 +36,7 @@
 
 # define SEM_FORKS "sem_forks_5"
 # define SEM_PRINT "sem_print_5"
+# define SEM_DEAD "sem_dead_5"
 
 enum {
 	AMOUNT_PHILO,
@@ -59,16 +63,12 @@ typedef struct s_vars {
 
 typedef struct s_philosophers {
 	t_vars		*vars;
-	pthread_t	thd;
 	uint8_t		id;
-	sem_t		*m_next_eat;
-	uint64_t	next_eat;
-	sem_t		*m_meals;
 	int			meals;
 }	t_philo;
 
 /* initialization */
-int			init(int argc, char **argv, t_vars *vars, t_philo **philos);
+int			init(int argc, char **argv, t_vars *vars);
 
 /* monitoring */
 void		monitoring(t_vars *vars, t_philo **philos);
@@ -77,7 +77,7 @@ void		monitoring(t_vars *vars, t_philo **philos);
 uint64_t	get_time(void);
 uint64_t	get_time_from_beginning(u_int64_t begin);
 void		ft_usleep(u_int64_t time);
-void		clean_exit(t_vars *vars, t_philo **philos);
+void		clean_exit(t_vars *vars);
 int			exit_mess(void);
 
 /* outputs */
@@ -86,6 +86,5 @@ void		print_die(t_philo *philo);
 
 /* Dev tools */
 void		print_arguments(t_vars vars);
-void		print_philos(t_philo **philos);
 
 #endif

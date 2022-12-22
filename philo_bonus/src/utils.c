@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:13:23 by tblanco           #+#    #+#             */
-/*   Updated: 2022/12/21 15:09:42 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/21 20:05:47 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,4 @@ void	ft_usleep(u_int64_t time)
 int	exit_mess(void)
 {
 	return (ft_errormess_fd(STDERR_FILENO, "Error\n", EXIT_FAILURE));
-}
-
-void	clean_exit(t_vars *vars, t_philo **philos)
-{
-	(void)philos;
-
-	sem_close(vars->sems[PRINT]);
-	sem_unlink(SEM_PRINT);
-	sem_close(vars->sems[FORKS]);
-	sem_unlink(SEM_FORKS);
 }
