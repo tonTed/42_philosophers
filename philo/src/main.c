@@ -6,11 +6,11 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:04:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/12/01 17:48:03 by tonted           ###   ########.fr       */
+/*   Updated: 2022/12/22 08:19:06 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../include/philosophers.h"
 
 void	add_meal(t_philo *philo)
 {
@@ -23,6 +23,11 @@ void	add_meal(t_philo *philo)
 
 bool	ft_continue(t_philo *philo)
 {
+	if (philo->vars->args[AMOUNT_PHILO] == 1)
+	{
+		print_status(philo, PUTS_FORK);
+		return (false);
+	}
 	pthread_mutex_lock(&philo->vars->mutexs[PRINT]);
 	if (philo->vars->print)
 	{
